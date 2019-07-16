@@ -15,8 +15,17 @@ type BarrageProcess struct{
 	conn net.Conn
 }
 
+/*
+私有变量
+*/
+var (
+	transferTool tools.TransferTool
+)
 
 func NewBarrageProcess(conn net.Conn) *BarrageProcess {
+	transferTool = tools.TransferTool{
+		Conn:conn,
+	}
 	return &BarrageProcess{
 		conn:conn,
 	}
@@ -35,9 +44,6 @@ func (this *BarrageProcess) Start(roomId string){
 */
 func (this *BarrageProcess) LoginBarrageServer(roomId string) error {
 	var login string = "type@=loginreq/roomid@=" + roomId + "/\x00"
-	transferTool :=  tools.TransferTool{
-		Conn:this.conn,
-	}
 	loginError := transferTool.Write([]byte(login))
 	return loginError
 }
@@ -48,9 +54,6 @@ func (this *BarrageProcess) LoginBarrageServer(roomId string) error {
 */
 func (this *BarrageProcess) JoinGroup(roomId string) error {
 	var joingroup string = "type@=joingroup/rid@=" + roomId + "/gid@=-9999/\x00"
-	transferTool :=  tools.TransferTool{
-		Conn:this.conn,
-	}
 	joingroupError := transferTool.Write([]byte(joingroup))
 	return joingroupError
 }
@@ -59,9 +62,6 @@ func (this *BarrageProcess) JoinGroup(roomId string) error {
 展示弹幕
 */
 func (this *BarrageProcess) ShowBarrage(){
-	transferTool :=  tools.TransferTool{
-		Conn:this.conn,
-	}
 	for{
 		data,err := transferTool.Read();
 		if(err != nil){
@@ -109,9 +109,6 @@ func (this *BarrageProcess) IsMessageBarrage(barrage string) bool {
 心跳机制
 */
 func (this *BarrageProcess) KeepLive(){
-	transferTool :=  tools.TransferTool{
-		Conn:this.conn,
-	}
 	for {
 		var timestamp string = strconv.Itoa(int(time.Now().Unix()))
 		var keepliveInfo string = "type@=keeplive/tick@=" + timestamp + "/\x00"

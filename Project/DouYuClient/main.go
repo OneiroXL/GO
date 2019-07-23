@@ -18,5 +18,9 @@ func main()  {
 		fmt.Println("服务器连接出错:",errConn)
 	}
 	barrageProcess := process.NewBarrageProcess(conn)
-	barrageProcess.Start("213116")
+
+	var roomId string
+	fmt.Print("请输入房间号:")
+	fmt.Scanf("%s/n",&roomId)
+	barrageProcess.Start(roomId)
 }

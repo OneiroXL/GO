@@ -4,6 +4,7 @@ import (
 	_"zilizili/server/routers"
 	"zilizili/model"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/plugins/cors"
 )
 
 func Start() {

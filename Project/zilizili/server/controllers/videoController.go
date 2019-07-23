@@ -81,7 +81,7 @@ func (this *VideoController) UpdateVideo() {
 //视频详情接口
 func (this *VideoController) GetVideo() {
 	//返回消息
-	result := result.Result{}
+	result := result.NewFailedResultData()
 
 	id,err := this.GetInt("ID")
 	if(id == 0 || err != nil){
@@ -102,7 +102,7 @@ func (this *VideoController) GetVideo() {
 //视频列表接口
 func (this *VideoController) GetVideoList() {
 	//返回消息
-	result := result.Result{}
+	result := result.NewErrorResultDataPage()
 
 	videoService := service.VideoService{}
 	videoList,_ := videoService.GetVideoList()

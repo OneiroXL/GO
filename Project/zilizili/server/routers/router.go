@@ -26,4 +26,10 @@ func init() {
 	beego.Router("api/video/GetVideo", &controllers.VideoController{},"get:GetVideo")
 	beego.Router("api/video/GetVideoList", &controllers.VideoController{},"get:GetVideoList")
 	beego.Router("api/video/DeleteVideo", &controllers.VideoController{},"delete:DeleteVideo")
+
+	beego.Router("api/user/AddUser", &controllers.UserController{},"post:AddUser")
+	beego.Router("api/user/UpdateUser", &controllers.UserController{},"put:UpdateUser")
+	beego.Router("api/user/GetUser", &controllers.UserController{},"get:GetUser")
+	beego.Router("api/user/GetUserList", &controllers.UserController{},"get:GetUserList")
+	beego.Router("api/user/DeleteUser", &controllers.UserController{},"delete:DeleteUser")
 }

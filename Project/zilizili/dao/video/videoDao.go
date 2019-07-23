@@ -1,9 +1,9 @@
 package dao
 
 import (
-	"../../model"
-	"../../model/base/entity"
-	"../../model/video/response"
+	"zilizili/model"
+	"zilizili/model/base/entity"
+	"zilizili/model/video/response"
 )
 
 type VideoDao struct{

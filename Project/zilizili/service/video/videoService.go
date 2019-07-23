@@ -1,10 +1,10 @@
 package service
 
 import (
-	"../../dao/video"
-	"../../model/base/entity"
-	"../../model/video/param"
-	"../../model/video/response"
+	"zilizili/dao/video"
+	"zilizili/model/base/entity"
+	"zilizili/model/video/param"
+	"zilizili/model/video/response"
 )
 
 

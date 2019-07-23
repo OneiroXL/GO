@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"./base"
-	"../../model/base/result"
-	"../../service/video"
-	"../../model/video/param"
+	"zilizili/server/controllers/base"
+	"zilizili/model/base/result"
+	"zilizili/service/video"
+	"zilizili/model/video/param"
 )
 
 type VideoController struct {

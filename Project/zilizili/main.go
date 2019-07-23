@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./server"
+	"zilizili/server"
 )
 
 func main()  {

@@ -1,6 +1,6 @@
 package model
 import (
-	"../model/base/entity"
+	"zilizili/model/base/entity"
 )
 
 //执行数据迁移

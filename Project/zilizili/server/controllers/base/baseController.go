@@ -5,7 +5,7 @@ import (
 	"github.com/astaxie/beego/validation"
 	"strings"
 	"log"
-	"../../../model/base/result"
+	"zilizili/model/base/result"
 )
  
 type BaseController struct {

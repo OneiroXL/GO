@@ -1,7 +1,7 @@
 package response
 
 import (
-	"../../base/entity"
+	"zilizili/model/base/entity"
 )
 
 type VideoResponseModel struct{

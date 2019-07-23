@@ -8,7 +8,7 @@
 package routers
 
 import (
-	"../controllers"
+	"zilizili/server/controllers"
 	"github.com/astaxie/beego"
 )
 

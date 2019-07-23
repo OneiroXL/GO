@@ -1,8 +1,8 @@
 package server
 
 import (
-	_"./routers"
-	"../model"
+	_"zilizili/server/routers"
+	"zilizili/model"
 	"github.com/astaxie/beego"
 )
 

@@ -7,7 +7,7 @@ import (
 	"time"
 	"regexp"
 	"strings"
-	"../common/tools"
+	"DouYuClient/common/tools"
 )
 
 

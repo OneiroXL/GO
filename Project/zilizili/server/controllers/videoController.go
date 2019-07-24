@@ -99,7 +99,7 @@ func (this *VideoController) GetVideo() {
 	this.ResponseJSON(result)
 }
 
-//视频列表接口
+//获取视频列表
 func (this *VideoController) GetVideoList() {
 	//返回消息
 	result := result.NewErrorResultDataPage()

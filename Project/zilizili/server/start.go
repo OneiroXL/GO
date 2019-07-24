@@ -5,7 +5,17 @@ import (
 	"zilizili/model"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
+	"github.com/astaxie/beego/context"
+	"log"
 )
+
+var FilterUser = func(ctx *context.Context) {
+	token := ctx.Input.Header("Token")
+	log.Println("token:",token)
+    if token != "ZXL" {
+        ctx.WriteString("请先登录")
+    }
+}
 
 func Start() {
 	if beego.BConfig.RunMode == "dev" {
@@ -19,6 +29,8 @@ func Start() {
 		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
 		AllowCredentials: true,
 	}))
+	beego.InsertFilter("/*",beego.BeforeRouter,FilterUser)
+
 	model.Database(beego.AppConfig.String("sqlconn"))
 	beego.Run()
 }

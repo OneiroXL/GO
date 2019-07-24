@@ -7,4 +7,5 @@ type UserParamModel struct{
 	Nickname	string `from:"Nickname" json:"Nickname"  valid:"Required"`
 	Status		string `from:"Status" json:"Status"`
 	Avatar		string `from:"Avatar" json:"Avatar"`
+	MobileNumber	string `from:"MobileNumber" json:"MobileNumber"`
 }

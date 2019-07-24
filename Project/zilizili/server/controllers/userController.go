@@ -141,3 +141,39 @@ func (this *UserController) DeleteUser(){
 	result.Status = 10000
 	this.ResponseJSON(result)
 }
+
+/*
+用户登录
+*/
+func (this *UserController) UserLogin(){
+	
+	result := result.NewFailedResultData()
+
+	userLoginModel := param.UserLoginModel{}
+	//检查惨参数并绑定
+	if (!this.BindParseForm(&userLoginModel)) {
+		result.Message = "参数有误"
+		this.ResponseJSON(result)
+		return
+	}
+	//验证参数
+	if isPass,msg := this.ValidParam(userLoginModel);!isPass {
+		result.Message = msg
+		this.ResponseJSON(result)
+		return
+	}
+
+	userService := service.UserService{}
+
+	isOK,msg,loginResultMdeol,_ := userService.UserLogin(userLoginModel);
+	if !isOK {
+		result.Message = msg
+		this.ResponseJSON(result)
+		return
+	}
+
+	result.Message = msg
+	result.Data = loginResultMdeol
+	result.Status = resultEnum.Success
+	this.ResponseJSON(result)
+}

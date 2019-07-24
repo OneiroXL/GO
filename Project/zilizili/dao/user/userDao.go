@@ -64,3 +64,12 @@ func (this *UserDao) DeleteUser(userId int)(bool,error){
 		return true,nil
 	}
 }
+
+/*
+获取用户信息依据登录参数
+*/
+func (this *UserDao) GetUserByLoginParam(loginParam	string) (response.UserResponseModel,error) {
+	userResponseModel := response.UserResponseModel{}
+	res := model.DB.Model(&userResponseModel).Where("UserCode = ?",loginParam).Or("MobileNumber = ?",loginParam).First(&userResponseModel)
+	return userResponseModel,res.Error;
+}

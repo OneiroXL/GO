@@ -29,7 +29,7 @@ func Start() {
 		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
 		AllowCredentials: true,
 	}))
-	beego.InsertFilter("/*",beego.BeforeRouter,FilterUser)
+	//beego.InsertFilter("/*",beego.BeforeRouter,FilterUser)
 
 	model.Database(beego.AppConfig.String("sqlconn"))
 	beego.Run()

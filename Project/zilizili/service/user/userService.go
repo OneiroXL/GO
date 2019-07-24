@@ -7,7 +7,6 @@ import (
 	"zilizili/model/user/response"
 	"zilizili/common/constant/userConstant"
 	"zilizili/common/tools"
-	
 )
 
 var (
@@ -31,6 +30,7 @@ func (this *UserService) AddUser(userParamModel param.UserParamModel) (bool,erro
 	user.Nickname = userParamModel.Nickname;
 	user.Status = userParamModel.Status;
 	user.Avatar = userParamModel.Avatar;
+	user.MobileNumber = userParamModel.MobileNumber;
 
 	return userDao.AddUser(user);
 }
@@ -47,8 +47,9 @@ func (this *UserService) UpdateUser(userParamModel param.UserParamModel) (bool,e
 	user.Nickname = userParamModel.Nickname;
 	user.Status = userParamModel.Status;
 	user.Avatar = userParamModel.Avatar;
+	user.MobileNumber = userParamModel.MobileNumber;
 
-	return userDao.AddUser(user);
+	return userDao.UpdateUser(user);
 }
 
 /*
@@ -75,13 +76,36 @@ func (this *UserService) DeleteUser(userID int)(bool,error){
 /*
 加密密码
 */
-func (user *UserService) GetCryptoPassword(password string) (string,error) {
+func (this *UserService) GetCryptoPassword(password string) (string,error) {
 	return cryptoTool.CryptoPassword(password,userConstant.PASSWORD_COST);
 }
 
 /*
 验证密码
 */
-func (user *UserService) CheckPassword(password string,cryptoPassword string) bool {
+func (this *UserService) CheckPassword(password string,cryptoPassword string) bool {
 	return cryptoTool.CheckPassword(password,cryptoPassword)
+}
+
+/*
+用户登录
+*/
+func (this *UserService) UserLogin(userLoginModel param.UserLoginModel) (bool,string,response.LoginResultMdeol,error) {
+
+	loginResultMdeol := response.LoginResultMdeol{}
+
+	//获取用户信息
+	userResponseModel,err := userDao.GetUserByLoginParam(userLoginModel.LoginParam)
+	if(err != nil){
+		return false,"系统错误",loginResultMdeol,err
+	}
+	//验证密码
+	if(!this.CheckPassword(userLoginModel.Password,userResponseModel.Password)){
+		return false,"密码错误",loginResultMdeol,nil
+	}
+
+	loginResultMdeol.Nickname = userResponseModel.Nickname
+	loginResultMdeol.Authorization = ""
+
+	return true,"登录成功",loginResultMdeol,nil
 }

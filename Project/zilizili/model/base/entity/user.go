@@ -15,7 +15,6 @@ type User struct {
 	MobileNumber         string `gorm:"column:MobileNumber;type:varchar(20);not null"`
 }
 
-//为Video绑定表名
-func (video *User) TableName() string {
+func (this *User) TableName() string {
 	return "User"
 }

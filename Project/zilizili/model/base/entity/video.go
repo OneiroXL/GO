@@ -11,7 +11,6 @@ type Video struct{
 	URL   string `gorm:"column:URL;type:varchar(300)"`
 }
 
-//为Video绑定表名
 func (video Video) TableName() string {
 	return "Video"
 }

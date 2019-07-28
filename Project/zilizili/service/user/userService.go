@@ -77,14 +77,14 @@ func (this *UserService) DeleteUser(userID int)(bool,error){
 加密密码
 */
 func (this *UserService) GetCryptoPassword(password string) (string,error) {
-	return cryptoTool.CryptoPassword(password,userConstant.PASSWORD_COST);
+	return tools.CryptoPassword(password,userConstant.PASSWORD_COST);
 }
 
 /*
 验证密码
 */
 func (this *UserService) CheckPassword(password string,cryptoPassword string) bool {
-	return cryptoTool.CheckPassword(password,cryptoPassword)
+	return tools.CheckPassword(password,cryptoPassword)
 }
 
 /*

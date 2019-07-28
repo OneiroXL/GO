@@ -17,6 +17,7 @@ func init() {
 		beego.NSNamespace("/v1",
 			beego.NSAutoRouter(&controllers.VideoController{}),
 			beego.NSAutoRouter(&controllers.UserController{}),
+			beego.NSAutoRouter(&controllers.UploadController{}),
 		),
 	)
 	beego.AddNamespace(ns)

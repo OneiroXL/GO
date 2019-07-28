@@ -9,4 +9,5 @@ func migration() {
 	// 自动迁移模式
 	DB.AutoMigrate(&entity.Video{})
 	DB.AutoMigrate(&entity.User{})
+	DB.AutoMigrate(&entity.File{})
 }

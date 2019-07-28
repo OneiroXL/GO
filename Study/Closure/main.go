@@ -4,6 +4,10 @@ import(
 	"fmt"
 )
 
+/*
+闭包
+*/
+
 func AddUpper() func (int) int{
 	var a int = 10
 	return func (x int) int {

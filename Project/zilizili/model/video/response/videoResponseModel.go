@@ -6,4 +6,5 @@ import (
 
 type VideoResponseModel struct{
 	entity.Video
+	CoverUrl string
 }

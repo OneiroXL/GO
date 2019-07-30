@@ -58,7 +58,11 @@ func (this *VideoService) GetVideo(videoId int) (response.VideoResponseModel,err
 获取视频信息列表
 */
 func (this *VideoService) GetVideoList() ([]response.VideoResponseModel,error) {
-	return videoDao.GetVideoList()
+	videoList,err := videoDao.GetVideoList()
+	for index,_ := range videoList {
+		videoList[index].CoverUrl = "http://127.0.0.1:3000/static/upload/videoCover/19dabca7465a5ee93b1369d8d68de39a_1.jpeg"
+	}
+	return videoList,err
 }
 
 /*

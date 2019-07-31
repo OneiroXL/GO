@@ -57,12 +57,12 @@ func (this *VideoService) GetVideo(videoId int) (response.VideoResponseModel,err
 /*
 获取视频信息列表
 */
-func (this *VideoService) GetVideoList() ([]response.VideoResponseModel,error) {
-	videoList,err := videoDao.GetVideoList()
+func (this *VideoService) GetVideoList(searchVideoModel param.SearchVideoModel) ([]response.VideoResponseModel,int,error) {
+	videoList,count,err := videoDao.GetVideoList(searchVideoModel)
 	for index,_ := range videoList {
-		videoList[index].CoverUrl = "http://127.0.0.1:3000/static/upload/videoCover/19dabca7465a5ee93b1369d8d68de39a_1.jpeg"
+		videoList[index].CoverUrl = "http://127.0.0.1:3000/" + videoList[index].Cover
 	}
-	return videoList,err
+	return videoList,count,err
 }
 
 /*

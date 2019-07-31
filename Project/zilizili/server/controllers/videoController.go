@@ -104,10 +104,26 @@ func (this *VideoController) GetVideoList() {
 	//返回消息
 	result := result.NewErrorResultDataPage()
 
+	searchVideoModel := param.SearchVideoModel{}
+	//检查惨参数并绑定
+	if (!this.BindParseForm(&searchVideoModel)) {
+		result.Message = "参数有误"
+		result.Status = 20000
+		this.ResponseJSON(result)
+		return
+	}
+	//验证参数
+	if isSucceess,msg := this.ValidParam(searchVideoModel);!isSucceess {
+		result.Message = msg
+		result.Status = 20000
+		this.ResponseJSON(result)
+		return
+	}
 	videoService := service.VideoService{}
-	videoList,_ := videoService.GetVideoList()
+	videoList,count,_ := videoService.GetVideoList(searchVideoModel)
 
 	result.Data = videoList
+	result.Count = count
 	result.Message = "成功"
 	result.Status = 10000
 	this.ResponseJSON(result)

@@ -4,6 +4,7 @@ import (
 	"zilizili/model"
 	"zilizili/model/base/entity"
 	"zilizili/model/video/response"
+	"zilizili/model/video/param"
 )
 
 type VideoDao struct{
@@ -44,10 +45,22 @@ func (this *VideoDao) GetVideo(videoId int) (response.VideoResponseModel,error) 
 /*
 获取视频信息列表
 */
-func (this *VideoDao) GetVideoList() ([]response.VideoResponseModel,error) {
-	videoList := []response.VideoResponseModel{}
-	err := model.DB.Find(&videoList).Error
-	return videoList,err;
+func (this *VideoDao) GetVideoList(searchVideoModel param.SearchVideoModel) ([]response.VideoResponseModel,int,error) {
+
+	videoList := []response.VideoResponseModel{} 
+
+	var db = model.DB;
+	if(searchVideoModel.Search != ""){
+		db = model.DB.Where("(Title LIKE '%?%')",searchVideoModel.Search);
+	}
+	//总条数
+	var count int
+	db.Model(&videoList).Count(&count)
+	//查出数据
+	db = db.Order("ID DESC")
+	err := db.Offset(searchVideoModel.PageSize * (searchVideoModel.PageIndex - 1)).Limit(searchVideoModel.PageSize).Find(&videoList).Error
+
+	return videoList,count,err;
 }
 /*
 删除视频信息

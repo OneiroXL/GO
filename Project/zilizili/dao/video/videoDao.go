@@ -51,7 +51,7 @@ func (this *VideoDao) GetVideoList(searchVideoModel param.SearchVideoModel) ([]r
 
 	var db = model.DB;
 	if(searchVideoModel.Search != ""){
-		db = model.DB.Where("(Title LIKE '%?%')",searchVideoModel.Search);
+		db = model.DB.Where("Title LIKE '%" +searchVideoModel.Search + "%'");
 	}
 	//总条数
 	var count int
@@ -62,6 +62,7 @@ func (this *VideoDao) GetVideoList(searchVideoModel param.SearchVideoModel) ([]r
 
 	return videoList,count,err;
 }
+
 /*
 删除视频信息
 */

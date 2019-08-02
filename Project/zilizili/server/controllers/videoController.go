@@ -5,6 +5,7 @@ import (
 	"zilizili/model/base/result"
 	"zilizili/service/video"
 	"zilizili/model/video/param"
+	"zilizili/common/enum/resultEnum"
 )
 
 type VideoController struct {
@@ -20,14 +21,14 @@ func (this *VideoController) AddVideo() {
 	//检查惨参数并绑定
 	if (!this.BindParseForm(&videoParamModel)) {
 		result.Message = "参数有误"
-		result.Status = 20000
+		result.Status = resultEnum.ReadParamFailed
 		this.ResponseJSON(result)
 		return
 	}
 	//验证参数
 	if isSucceess,msg := this.ValidParam(videoParamModel);!isSucceess {
 		result.Message = msg
-		result.Status = 20000
+		result.Status = resultEnum.ValidParamFailed
 		this.ResponseJSON(result)
 		return
 	}
@@ -36,12 +37,12 @@ func (this *VideoController) AddVideo() {
 	
 	if isOk,err := videoService.AddVideo(videoParamModel);!isOk{
 		result.Message = err
-		result.Status = 20000
+		result.Status = resultEnum.Error
 		this.ResponseJSON(result)
 		return
 	}
 	result.Message = "成功"
-	result.Status = 10000
+	result.Status = resultEnum.Success
 	this.ResponseJSON(result)
 }
 

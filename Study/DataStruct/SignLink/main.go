@@ -2,11 +2,11 @@ package main
 
 
 import (
-	"./list"
+	"./link"
 )
 
 func main(){
-	signList := list.SignList{}
+	signList := link.SignLink{}
 
 	signList.Add(10)
 	signList.Add(20)

@@ -6,6 +6,7 @@ import (
 	"chat/client/center"
 	"chat/common/tools"
 	"chat/model/base"
+	"encoding/json"
 )
 
 func main(){

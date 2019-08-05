@@ -1,25 +1,25 @@
-package list
+package link
 
 import(
 	"fmt"
 )
 
-type SignList struct {
-	Next *SignList
+type SignLink struct {
+	Next *SignLink
 	Data interface{}
 }
 
 /*
 添加
 */
-func (this *SignList) Add(data interface{}) {
+func (this *SignLink) Add(data interface{}) {
 	temp := this
 	for {
 		if(temp.Next == nil){
-			signList := &SignList{
+			signLink := &SignLink{
 				Data:data,
 			}
-			temp.Next = signList 
+			temp.Next = signLink 
 			return
 		}
 		temp = temp.Next
@@ -27,9 +27,17 @@ func (this *SignList) Add(data interface{}) {
 }
 
 /*
+更新
+*/
+
+func (this *SignLink) Update(){
+
+}
+
+/*
 移除链表
 */
-func (this *SignList) Remove(data interface{}){
+func (this *SignLink) Remove(data interface{}){
 	temp := this
 	for {
 		if(temp.Next.Data == data){
@@ -43,7 +51,7 @@ func (this *SignList) Remove(data interface{}){
 /*
 打印链表
 */
-func (this *SignList) Show(){
+func (this *SignLink) Show(){
 	temp := this
 	for temp != nil {
 		fmt.Println(temp.Data)

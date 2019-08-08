@@ -4,6 +4,9 @@ import (
 	"net"
 	"encoding/binary"
 	"bytes"
+	"chat/model/base"
+	"encoding/json"
+	"errors"
 )
 
 type TcpTool struct {
@@ -19,7 +22,7 @@ type TcpTool struct {
 func (this *TcpTool) Write(data []byte) error {
 	//组装头部
 	var dateLength uint32 = uint32(len(data) + 4)
-	binary.LittleEndian.PutUint32(this.Buffer[0:4],dateLength)//数据长度
+	binary.BigEndian.PutUint32(this.Buffer[0:4],dateLength)//数据长度
 	//将头部和数据拼接
 	var sendData bytes.Buffer
 	sendData.Write(this.Buffer[0:4])//这里头部多取两位是因为一个是加密字段，一个是保留字段
@@ -40,5 +43,30 @@ func (this *TcpTool) Read() (string,error) {
 	if(err != nil){
 		return "",err
 	}
-	return string(this.Buffer[0:dateLength]),nil
+    var len uint32
+    binary.Read(bytes.NewBuffer(this.Buffer[0:4]), binary.BigEndian, &len)
+	if(len != uint32(dateLength)){
+		return "",errors.New("协议错误")
+	}
+	return string(this.Buffer[4:dateLength]),nil
+}
+
+
+/*
+写入并读取
+*/
+func (this *TcpTool) WriteAndRead(data []byte) (*base.Interactive,error)  {
+	err := this.Write(data)
+	if(err != nil){
+		return nil,err
+	}
+	returnData,err := this.Read()
+	if(err != nil){
+		return nil,err
+	}
+	interactive := base.Interactive{}
+
+	err = json.Unmarshal([]byte(returnData),&interactive)
+
+	return &interactive,err
 }

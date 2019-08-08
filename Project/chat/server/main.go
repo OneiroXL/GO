@@ -6,7 +6,7 @@ import (
 	"chat/common/tools"
 	"chat/model/base"
 	"encoding/json"
-	"chat/sever/center"
+	"chat/server/center"
 )
 
 func main(){
@@ -32,16 +32,17 @@ func Process(conn net.Conn){
 	tcpTool := tools.TcpTool{
 		Conn:conn,
 	}
-	interactiveCenter := center.InteractiveCenter{}
+	interactiveCenter := center.InteractiveCenter{
+		Conn:conn,
+		TcpTool:tcpTool,
+	}
 	for {
 		data,err := tcpTool.Read()
 		if(err != nil){
-			fmt.Println("数据读取出错，或连接已断开")
+			fmt.Println("数据读取出错，或连接已断开 Err:",err)
 			return
 		}
-		interactive := base.Interactive{
-			Conn:conn,
-		}
+		interactive := base.Interactive{}
 		json.Unmarshal([]byte(data),&interactive)
 		interactiveCenter.InteractiveHandle(interactive)
 	}

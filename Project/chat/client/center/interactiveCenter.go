@@ -19,10 +19,9 @@ type InteractiveCenter struct{
 */
 func (this *InteractiveCenter) InteractiveHandle(interactive base.Interactive) error {
 	switch interactive.Type {
-		case 100:{
+		case 101:{
 			
 		}
 	}
 	return nil
 }
-

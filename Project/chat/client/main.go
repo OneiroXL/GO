@@ -15,12 +15,15 @@ func main(){
 	if errConn != nil {
 		fmt.Println("服务器连接出错:", errConn)
 	}
-
-	controllerCenter := center.ControllerCenter{
+	tcpTool := tools.TcpTool{
 		Conn:conn,
 	}
+	controllerCenter := center.ControllerCenter{
+		Conn:conn,
+		TcpTool:tcpTool,
+	}
 
-	controllerCenter.MainMenu()
+	controllerCenter.Login()
 }
 
 

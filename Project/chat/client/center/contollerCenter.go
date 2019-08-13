@@ -11,6 +11,7 @@ import (
 type ControllerCenter struct {
 	Conn net.Conn
 	TcpTool tools.TcpTool
+	UserID int
 }
 
 
@@ -39,8 +40,11 @@ func (this *ControllerCenter) Login(){
 	if(err != nil){
 		
 	}
+	this.UserID = userID
+	go Process(this.Conn,userID)
 	this.MainMenu()
 }
+
 
 func (this *ControllerCenter) MainMenu() {
 	for {
@@ -68,7 +72,7 @@ func (this *ControllerCenter) MainMenu() {
 }
 
 
-func MessageMenu(){
+func (this *ControllerCenter) MessageMenu(){
 	for {
 		fmt.Println("----------消息管理----------")
 		fmt.Println("1:发送消息")
@@ -80,7 +84,13 @@ func MessageMenu(){
 
 		switch(v){
 			case "1":{
-				
+				fmt.Printf("请输入您要发送的消息:")
+
+				var msg string
+				fmt.Scanf("%s\n",&msg)
+
+				messageHandle := handle.NewMessageHandle(this.Conn,this.UserID)
+				messageHandle.GroupSendMessage(msg)
 			}
 			case "0":{
 				return
@@ -91,5 +101,3 @@ func MessageMenu(){
 		}
 	}
 }
-
-func 

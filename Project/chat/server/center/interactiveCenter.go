@@ -2,9 +2,9 @@ package center
 
 import (
 	"chat/model/base"
+	"chat/model/message"
 	"net"
 	"chat/common/tools"
-	"fmt"
 	"chat/server/handle"
 	"encoding/json"
 	"chat/model/user"
@@ -19,7 +19,7 @@ type InteractiveCenter struct{
 }
 
 /*
-处理处理
+交互处理
 */
 func (this *InteractiveCenter) InteractiveHandle(interactive base.Interactive) error {
 	switch interactive.Type {
@@ -30,7 +30,13 @@ func (this *InteractiveCenter) InteractiveHandle(interactive base.Interactive) e
 			json.Unmarshal([]byte(interactive.Data),&userLoginModel)
 			userHandle.UserLogin(userLoginModel)
 		}
+		case 200:{
+			messageHandle := handle.NewMessageHandle()
+			
+			groupSendMessage := message.GroupSendMessage{}
+			json.Unmarshal([]byte(interactive.Data),&groupSendMessage)
+			messageHandle.GroupSendMessage(groupSendMessage)
+		}
 	}
 	return nil
 }
-

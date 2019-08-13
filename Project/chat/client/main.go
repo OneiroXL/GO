@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"chat/client/center"
 	"chat/common/tools"
-	"chat/model/base"
-	"encoding/json"
 )
 
 func main(){
@@ -24,25 +22,4 @@ func main(){
 	}
 
 	controllerCenter.Login()
-}
-
-
-func Process(conn net.Conn){
-	tcpTool := tools.TcpTool{
-		Conn:conn,
-	}
-	interactiveCenter := center.InteractiveCenter{
-		Conn:conn,
-		TcpTool:tcpTool,
-	}
-	for {
-		data,err := tcpTool.Read()
-		if(err != nil){
-			fmt.Println("服务器错误")
-			return
-		}
-		interactive := base.Interactive{}
-		json.Unmarshal([]byte(data),&interactive)
-		interactiveCenter.InteractiveHandle(interactive)
-	}
 }

@@ -6,6 +6,7 @@ import (
 	"chat/model/base"
 	"chat/model/message"
 	"chat/common/tools"
+	"fmt"
 )
 
 type MessageHandle struct{
@@ -46,6 +47,14 @@ func (this *MessageHandle) GroupSendMessage(msg string){
 
 	interactiveJSON,_ := json.Marshal(interactive)
 
-
 	this.TcpTool.Write(interactiveJSON)
+}
+
+/*
+展示群发消息
+*/
+func (this *MessageHandle) ShowGroupSendMessage(groupSendMessage message.GroupSendMessage) {
+	if(groupSendMessage.SendUserID != this.UserID){
+		fmt.Printf("用户[%v]:%s\n",groupSendMessage.SendUserID,groupSendMessage.Message)
+	}	
 }

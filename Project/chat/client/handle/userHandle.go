@@ -6,7 +6,6 @@ import (
 	"chat/model/user"
 	"chat/model/base"
 	"chat/common/tools"
-	"fmt"
 )
 
 type UserHandle struct {
@@ -25,7 +24,7 @@ func (this *UserHandle) UserRegister(userRegisterModel user.UserRegisterModel) (
 /*
 用户登录
 */
-func (this *UserHandle) UserLogin(userLoginModel user.UserLoginModel) (error) {
+func (this *UserHandle) UserLogin(userLoginModel user.UserLoginModel) (bool,string,error) {
 
 	userLoginModelJSON,_ := json.Marshal(userLoginModel)
 
@@ -39,9 +38,8 @@ func (this *UserHandle) UserLogin(userLoginModel user.UserLoginModel) (error) {
 	data,err := this.TcpTool.WriteAndRead(interactiveRequestJSON)
 
 	if(data.Status == 10000){
-		fmt.Println("登录成功")
+		return true,data.Message,err
 	}else{
-		fmt.Println(data.Message)
+		return false,data.Message,err
 	}
-	return err
 }

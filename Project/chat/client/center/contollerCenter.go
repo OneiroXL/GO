@@ -99,10 +99,15 @@ func (this *ControllerCenter) Login(){
 		TcpTool:this.TcpTool,
 	}
 
-	err := userHandle.UserLogin(userLoginModel)
+	isOk,mes,err := userHandle.UserLogin(userLoginModel)
 
 	if(err != nil){
-		
+		fmt.Println("登陆错误",err)
+		return
+	}
+	if(!isOk){
+		fmt.Println(mes)
+		return
 	}
 	this.UserCode = userCode
 	go Process(this.Conn,userCode)

@@ -1,6 +1,6 @@
 package message
 
 type MessageModel struct {
-	SendUserID int
+	SendUserCode string
 	Message string
 }

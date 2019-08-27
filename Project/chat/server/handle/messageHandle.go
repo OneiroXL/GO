@@ -21,19 +21,20 @@ func NewMessageHandle() *MessageHandle {
 群发消息
 */
 func (this *MessageHandle) GroupSendMessage(groupSendMessage message.GroupSendMessage) {
-	interactive := base.Interactive{}
+	interactiveResponse := base.InteractiveResponse{}
 
-	interactive.Status = 10000
-	interactive.Type = 201
-	interactive.Message = "成功"
+	interactiveResponse.Status = 10000
+	interactiveResponse.Type = 201
+	interactiveResponse.Message = "成功"
 
 	groupSendMessageJson,_ := json.Marshal(groupSendMessage)
-	interactive.Data = string(groupSendMessageJson)
-	interactiveJson,_ := json.Marshal(interactive)
+	interactiveResponse.Data = string(groupSendMessageJson)
+	interactiveResponseJson,_ := json.Marshal(interactiveResponse)
+
 	//发送消息
 	tcpTool := tools.TcpTool{}
 	for _, val := range userMap {
 		tcpTool.Conn = val.Conn
-		tcpTool.Write(interactiveJson)
+		tcpTool.Write(interactiveResponseJson)
 	}
 }

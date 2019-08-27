@@ -7,6 +7,7 @@ import (
 	"chat/model/base"
 	"encoding/json"
 	"chat/server/center"
+	"chat/server/dao"
 )
 
 func main(){
@@ -24,6 +25,8 @@ func main(){
 		}else{
 			fmt.Printf("Accept() suc conn=%v,客户端IP=%v\n",conn,conn.RemoteAddr().String())
 		}
+		//初始化数据库
+		DBBase.Database("root:123456@tcp(127.0.0.1:3306)/chat?charset=utf8&parseTime=True&loc=Local")
 		go Process(conn)
 	}
 }
@@ -40,11 +43,13 @@ func Process(conn net.Conn){
 		data,err := tcpTool.Read()
 		if(err != nil){
 			fmt.Println("数据读取出错，或连接已断开 Err:",err)
+			
+			conn.Close();
 			return
 		}
-		interactive := base.Interactive{}
-		json.Unmarshal([]byte(data),&interactive)
-		interactiveCenter.InteractiveHandle(interactive)
+		interactiveRequest := base.InteractiveRequest{}
+		json.Unmarshal([]byte(data),&interactiveRequest)
+		interactiveCenter.InteractiveHandle(interactiveRequest)
 	}
 
 }

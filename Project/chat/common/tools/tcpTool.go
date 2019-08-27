@@ -55,7 +55,7 @@ func (this *TcpTool) Read() (string,error) {
 /*
 写入并读取
 */
-func (this *TcpTool) WriteAndRead(data []byte) (*base.Interactive,error)  {
+func (this *TcpTool) WriteAndRead(data []byte) (*base.InteractiveResponse,error)  {
 	err := this.Write(data)
 	if(err != nil){
 		return nil,err
@@ -64,9 +64,35 @@ func (this *TcpTool) WriteAndRead(data []byte) (*base.Interactive,error)  {
 	if(err != nil){
 		return nil,err
 	}
-	interactive := base.Interactive{}
+	interactiveResponse := base.InteractiveResponse{}
 
-	err = json.Unmarshal([]byte(returnData),&interactive)
+	err = json.Unmarshal([]byte(returnData),&interactiveResponse)
 
-	return &interactive,err
+	return &interactiveResponse,err
+}
+
+/*
+Request
+*/
+func (this *TcpTool) Request(obj interface{},typeID int)(*base.InteractiveResponse,error){
+
+	objJSON,_ := json.Marshal(obj)
+
+	//交互消息体
+	interactiveRequest := base.InteractiveRequest{}
+	interactiveRequest.Type = typeID
+	interactiveRequest.Data = string(objJSON)
+
+	interactiveRequestJSON,_ := json.Marshal(interactiveRequest)
+
+	return this.WriteAndRead(interactiveRequestJSON)
+}
+
+/*
+Respose
+*/
+func (this *TcpTool) Respose(interactiveResponse base.InteractiveResponse) error {
+	interactiveResponseJSON,_ := json.Marshal(&interactiveResponse)
+	
+	return this.Write([]byte(interactiveResponseJSON))
 }

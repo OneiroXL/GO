@@ -11,15 +11,15 @@ import (
 
 type MessageHandle struct{
 	Conn net.Conn
-	UserID int
+	UserCode string
 	TcpTool tools.TcpTool
 }
 
 
-func NewMessageHandle(conn net.Conn,userID int) *MessageHandle {
+func NewMessageHandle(conn net.Conn,userCode string) *MessageHandle {
 	messageHandle := &MessageHandle{
 		Conn:conn,
-		UserID:userID,
+		UserCode:userCode,
 		TcpTool:tools.TcpTool{
 			Conn:conn,
 		},
@@ -33,28 +33,26 @@ func NewMessageHandle(conn net.Conn,userID int) *MessageHandle {
 func (this *MessageHandle) GroupSendMessage(msg string){
 	//消息体
 	groupSendMessage := message.GroupSendMessage{}
-	groupSendMessage.SendUserID = this.UserID
+	groupSendMessage.SendUserCode = this.UserCode
 	groupSendMessage.Message = msg
 	groupSendMessageJSON,_ := json.Marshal(groupSendMessage)
 
 	//交互消息体
-	interactive := base.Interactive{}
-	interactive.Type = 200
-	interactive.Status = 10000
-	interactive.Message = "群发消息"
-	interactive.Data = string(groupSendMessageJSON)
+	interactiveRequest := base.InteractiveRequest{}
+	interactiveRequest.Type = 200
+	interactiveRequest.Data = string(groupSendMessageJSON)
 
 
-	interactiveJSON,_ := json.Marshal(interactive)
+	interactiveRequestJSON,_ := json.Marshal(interactiveRequest)
 
-	this.TcpTool.Write(interactiveJSON)
+	this.TcpTool.Write(interactiveRequestJSON)
 }
 
 /*
 展示群发消息
 */
 func (this *MessageHandle) ShowGroupSendMessage(groupSendMessage message.GroupSendMessage) {
-	if(groupSendMessage.SendUserID != this.UserID){
-		fmt.Printf("用户[%v]:%s\n",groupSendMessage.SendUserID,groupSendMessage.Message)
+	if(groupSendMessage.SendUserCode != this.UserCode){
+		fmt.Printf("用户[%v]:%s\n",groupSendMessage.SendUserCode,groupSendMessage.Message)
 	}	
 }

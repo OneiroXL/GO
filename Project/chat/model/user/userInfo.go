@@ -5,7 +5,7 @@ import (
 )
 
 type UserInfo struct {
-	ID int
+	UserCode string
 	Name string
 	Conn net.Conn
 }

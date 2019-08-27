@@ -1,6 +1,7 @@
 package user
 
-type UserLoginModel struct{
+type UserRegisterModel struct{
 	UserCode string
 	Passcode string
+	UserName string
 }

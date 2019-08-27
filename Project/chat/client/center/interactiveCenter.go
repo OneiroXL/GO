@@ -16,18 +16,18 @@ import (
 type InteractiveCenter struct{
 	Conn net.Conn
 	TcpTool tools.TcpTool
-	UserID int
+	UserCode string
 }
 
 
-func Process(conn net.Conn,userID int){
+func Process(conn net.Conn,userCode string){
 	tcpTool := tools.TcpTool{
 		Conn:conn,
 	}
 	interactiveCenter := InteractiveCenter{
 		Conn:conn,
 		TcpTool:tcpTool,
-		UserID:userID,
+		UserCode:userCode,
 	}
 	for {
 		data,err := tcpTool.Read()
@@ -35,25 +35,25 @@ func Process(conn net.Conn,userID int){
 			fmt.Println("服务器错误")
 			return
 		}
-		interactive := base.Interactive{}
-		json.Unmarshal([]byte(data),&interactive)
-		interactiveCenter.InteractiveHandle(interactive)
+		interactiveResponse := base.InteractiveResponse{}
+		json.Unmarshal([]byte(data),&interactiveResponse)
+		interactiveCenter.InteractiveHandle(interactiveResponse)
 	}
 }
 
 /*
 处理处理
 */
-func (this *InteractiveCenter) InteractiveHandle(interactive base.Interactive) error {
-	switch interactive.Type {
+func (this *InteractiveCenter) InteractiveHandle(interactiveResponse base.InteractiveResponse) error {
+	switch interactiveResponse.Type {
 		case 101:{
 			
 		}
 		case 201:{
 			groupSendMessage := message.GroupSendMessage{}
-			json.Unmarshal([]byte(interactive.Data),&groupSendMessage)
+			json.Unmarshal([]byte(interactiveResponse.Data),&groupSendMessage)
 
-			messageHandle := handle.NewMessageHandle(this.Conn,this.UserID)
+			messageHandle := handle.NewMessageHandle(this.Conn,this.UserCode)
 			messageHandle.ShowGroupSendMessage(groupSendMessage)
 		}
 	}

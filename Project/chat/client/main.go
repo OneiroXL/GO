@@ -21,5 +21,5 @@ func main(){
 		TcpTool:tcpTool,
 	}
 
-	controllerCenter.Login()
+	controllerCenter.Index()
 }

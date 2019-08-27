@@ -15,26 +15,33 @@ type UserHandle struct {
 }
 
 /*
+用户注册
+*/
+func (this *UserHandle) UserRegister(userRegisterModel user.UserRegisterModel) (string,error) {
+	data,err := this.TcpTool.Request(userRegisterModel,102)
+	return data.Message,err
+}
+
+/*
 用户登录
 */
-func (this *UserHandle) UserLogin(userLoginModel user.UserLoginModel) error {
+func (this *UserHandle) UserLogin(userLoginModel user.UserLoginModel) (error) {
 
 	userLoginModelJSON,_ := json.Marshal(userLoginModel)
 
 	//交互消息体
-	interactive := base.Interactive{}
-	interactive.Type = 100
-	interactive.Message = "用户登录"
-	interactive.Data = string(userLoginModelJSON)
+	interactiveRequest := base.InteractiveRequest{}
+	interactiveRequest.Type = 100
+	interactiveRequest.Data = string(userLoginModelJSON)
 
-	interactiveJSON,_ := json.Marshal(interactive)
+	interactiveRequestJSON,_ := json.Marshal(interactiveRequest)
 
-	data,err := this.TcpTool.WriteAndRead(interactiveJSON)
+	data,err := this.TcpTool.WriteAndRead(interactiveRequestJSON)
 
 	if(data.Status == 10000){
 		fmt.Println("登录成功")
 	}else{
-		fmt.Println("登录失败")
+		fmt.Println(data.Message)
 	}
 	return err
 }

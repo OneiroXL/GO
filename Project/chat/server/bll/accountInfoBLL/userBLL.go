@@ -56,7 +56,7 @@ func (this *UserBLL) LoginVerification(userLoginModel user.UserLoginModel) (bool
 	//获取用户信息
 	user,err := this.GetUser(userLoginModel.UserCode)
 	if(user.ID == 0){
-		return false,"该用户不存在",err
+		return false,"该用户不存在",nil
 	}
 	if(err != nil){
 		return false,"错误",err

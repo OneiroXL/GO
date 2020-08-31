@@ -1,12 +1,12 @@
 package main
 
 import (
-	_"zilizili/server"
-	"zilizili/streamserver"
+	"zilizili/server"
+	_"zilizili/streamserver"
 )
 
 func main()  {
-	//server.Start()
-	streamserver.Start()
+	server.Start()
+	//streamserver.Start()
 
 }

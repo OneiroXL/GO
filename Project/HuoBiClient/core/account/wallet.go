@@ -8,7 +8,6 @@ import (
 
 
 var (
-
 	//金融信息map[币种][状态]{信息}
 	balanceInfoMap map[string]map[string]*account.BalanceModel = make(map[string]map[string]*account.BalanceModel,50)
 )
